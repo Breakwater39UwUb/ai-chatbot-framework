@@ -38,8 +38,8 @@ npm install
 ```sh
 ng build --prod --optimize
 ng serve
+```
 
-```sh
 * run app
 
 ```sh
