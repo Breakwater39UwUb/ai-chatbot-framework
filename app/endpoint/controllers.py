@@ -178,11 +178,12 @@ def api():
                 template = Template(intent.speechResponse,
                                     undefined=SilentUndefined)
                 result_json["speechResponse"] = split_sentence(template.render(**context))
-                if result_json["intent"]["name"]:
-                    if result_json["intent"]["name"] == "War Thunder Agent":
-                        if result_json["extractedParameters"]["war_thunder_vehicle"] == "leopard_2a6":
-                            a = War_thunder_vehicles.objects
-                            result_json["speechResponse"].append(a)
+                #if result_json["intent"]["name"] == "War Thunder Agent":
+                if result_json["currentNode"]:
+                    print(result_json["currentNode"])
+                    if result_json["extractedParameters"]["war_thunder_vehicle"] == "leopard_2a6":
+                        a = War_thunder_vehicles.objects
+                        result_json["speechResponse"].append(a)
 
         app.logger.info(request_json.get("input"), extra=result_json)
         return build_response.build_json(result_json)
