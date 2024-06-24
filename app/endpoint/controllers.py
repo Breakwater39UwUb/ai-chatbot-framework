@@ -178,7 +178,7 @@ def api():
                 template = Template(intent.speechResponse,
                                     undefined=SilentUndefined)
                 result_json["speechResponse"] = split_sentence(template.render(**context))
-                if result_json["war_thunder_vehicle"] == "leopard_2a6":
+                if result_json["extractedParameters"]["war_thunder_vehicle"] == "leopard_2a6":
                     a = War_thunder_vehicles.objects
                     result_json["speechResponse"].append(a)
 
