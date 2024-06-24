@@ -14,6 +14,26 @@ from app.intents.models import Intent
 from app.nlu.classifiers.sklearn_intent_classifer import \
     SklearnIntentClassifier
 from app.nlu.entity_extractor import EntityExtractor
+
+from mongoengine.fields import DictField
+from mongoengine.fields import Document
+from mongoengine.fields import EmbeddedDocument
+from mongoengine.fields import EmbeddedDocumentListField
+from mongoengine.fields import ListField
+from mongoengine.fields import StringField
+
+class Ammunition(EmbeddedDocument):
+    value = StringField(required=True)
+    synonyms = ListField(required=True, default=[])
+
+
+class War_thunder_vehicles(Document):
+    name = StringField(max_length=100, required=True, unique=True)
+    mobility = DictField(required=True)
+    armour = DictField(required=True)
+    armaments = DictField(required=True)
+    ammunition = EmbeddedDocumentListField(Ammunition)
+
 endpoint = Blueprint('api', __name__, url_prefix='/api')
 sentence_classifier = SklearnIntentClassifier()
 synonyms = None
@@ -158,6 +178,10 @@ def api():
                 template = Template(intent.speechResponse,
                                     undefined=SilentUndefined)
                 result_json["speechResponse"] = split_sentence(template.render(**context))
+                if result_json["war_thunder_vehicle"] == "leopard_2a6":
+                    a = War_thunder_vehicles.objects
+                    result_json["speechResponse"].append(a)
+
         app.logger.info(request_json.get("input"), extra=result_json)
         return build_response.build_json(result_json)
     else:
