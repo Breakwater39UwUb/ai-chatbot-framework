@@ -181,7 +181,8 @@ def api():
                 if result_json["intent"]["id"] == "war_thuner_agent":
                     if result_json["extractedParameters"]["war_thunder_vehicle"] == "leopard_2a6":
                         a = War_thunder_vehicles.objects
-                        result_json["speechResponse"].append(a)
+                        result_json["speechResponse"] = "True"
+                        #result_json["speechResponse"].append(a)
 
         app.logger.info(request_json.get("input"), extra=result_json)
         return build_response.build_json(result_json)
